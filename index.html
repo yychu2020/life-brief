@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; form-action 'none'; object-src 'none'; base-uri 'none'">
   <meta name="referrer" content="no-referrer">
-  <meta name="description" content="生活折页是一份按主题填写的私人手记，帮你回看经历、厘清取舍，把下一步写下来。">
-  <title>生活折页</title>
+  <meta name="description" content="在生活折页写下你的经历、目标和现实限制，下载 Markdown 手记，再把愿意分享的背景交给 AI，请它结合你的处境分析。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="生活折页｜给 AI 一份读得懂的个人手记">
+  <meta property="og:description" content="在生活折页写下你的经历、目标和现实限制，下载 Markdown 手记，再把愿意分享的背景交给 AI，请它结合你的处境分析。">
+  <title>生活折页｜给 AI 一份读得懂的个人手记</title>
   <link rel="stylesheet" href="styles.css">
   <script defer src="questions.js"></script>
   <script defer src="phq9.js"></script>
@@ -37,8 +40,8 @@
       <div class="hero">
         <div class="hero-content">
           <p class="intro-kicker">一份给自己的阶段手记</p>
-          <h1 id="intro-title">这段日子，<br>你想记下什么？</h1>
-          <p class="intro-description">从一件眼下在意的事写起。回看经历、盘点手里的支点，把想尝试的下一步留在手记里。</p>
+          <h1 id="intro-title">先写清来龙去脉，<br>再问 AI 怎么做。</h1>
+          <p class="intro-description">大模型能帮你理思路，了解你的经历、目标和现实限制后，建议也更容易落到实处。用生活折页把背景写成手记，下载 <code>.md</code>，再交给你常用的 AI。</p>
           <div class="actions">
             <button id="start" class="button primary" type="button">开始写手记 <span aria-hidden="true">→</span></button>
             <button id="continue-draft" class="button primary" type="button" hidden>继续草稿 <span aria-hidden="true">→</span></button>
@@ -59,6 +62,15 @@
           </figure>
         </div>
       </div>
+
+      <section class="ai-workflow" aria-labelledby="ai-workflow-title">
+        <h2 id="ai-workflow-title">怎么用</h2>
+        <ol>
+          <li><strong>写下自己的背景</strong><p>从近况写起，再挑相关的经历、技能和限制补充。</p></li>
+          <li><strong>下载 Markdown 手记</strong><p>检查整理出的内容，保存为 <code>.md</code> 文件。</p></li>
+          <li><strong>带着背景问 AI</strong><p>上传文件或粘贴愿意分享的内容，问它该先做什么、技能还能用在哪，或上一阶段有哪些经验。</p></li>
+        </ol>
+      </section>
 
       <section id="home-profile" class="home-profile" aria-labelledby="home-profile-title" hidden>
         <h2 id="home-profile-title">我的档案标签</h2>
@@ -161,7 +173,11 @@
         </div>
       </div>
       <div class="report-extra">
-        <div><h2>用 AI 继续梳理</h2><p>复制含部分答复的提示词，粘贴到你常用的 AI 工具。</p></div>
+        <div>
+          <h2>带着手记问 AI</h2>
+          <p>分享前先检查手记中的健康、财务和他人信息，只保留你愿意分享的内容。把 <code>.md</code> 上传到支持文件的 AI 工具，或直接粘贴选好的文字。</p>
+          <p>可以接着问「根据我的时间和手头资源，这周先做哪一步？」也可以复制含部分答复的提示词。</p>
+        </div>
         <button id="copy-prompt" class="button secondary" type="button">复制 AI 提示词</button>
       </div>
     </section>

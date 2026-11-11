@@ -35,10 +35,15 @@ h1, h2, h3, p { margin: 0; }
 .hero { display: grid; grid-template-columns: 1.13fr 1fr; gap: clamp(28px, 6vw, 90px); align-items: center; }
 .intro-kicker { color: var(--accent); font-size: .9rem; font-weight: 750; letter-spacing: .09em; }
 .hero h1, .report-heading h1, .overview-heading h1, .question-title { font-family: var(--serif); font-weight: 700; }
-.hero h1 { margin-top: 17px; font-size: clamp(2.6rem, 6vw, 5.15rem); line-height: 1.13; letter-spacing: -.055em; }
+.hero h1 { margin-top: 17px; font-size: clamp(2.3rem, 5.1vw, 4.35rem); line-height: 1.16; letter-spacing: -.055em; }
 .intro-description { max-width: 30em; margin-top: 24px; color: var(--muted); font-size: 1.04rem; line-height: 1.9; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .hero .actions { margin-top: 29px; }
+.ai-workflow { margin-top: clamp(29px, 5vw, 58px); padding-top: 16px; border-top: 1px solid var(--rule); }
+.ai-workflow h2 { margin: 0 0 11px; font: 700 1.25rem/1.3 var(--serif); }
+.ai-workflow ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px 26px; margin: 0; padding-left: 1.3em; }
+.ai-workflow li::marker { color: var(--accent); font-weight: 750; }
+.ai-workflow p { margin: 4px 0 0; color: var(--muted); font-size: .91rem; line-height: 1.65; }
 .button { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 10px 16px; border: 1px solid transparent; border-radius: 5px; font-size: .92rem; font-weight: 700; line-height: 1.35; }
 .primary { background: var(--accent); color: #fff; }
 .primary:hover { background: var(--accent-hover); }
@@ -235,6 +240,7 @@ textarea { display: block; resize: vertical; }
 .report-extra { margin-top: 16px; padding: 17px; border-left: 3px solid var(--accent); background: var(--tint); }
 .report-extra h2 { font-size: .99rem; }
 .report-extra p { font-size: .87rem; }
+.report-extra > .button { flex-shrink: 0; }
 
 dialog { width: min(650px, calc(100% - 32px)); padding: 21px; border: 1px solid var(--line); background: var(--sheet); color: var(--ink); }
 dialog::backdrop { background: #2c25465c; }
@@ -286,10 +292,11 @@ dialog > button { min-height: 38px; margin-top: 12px; padding: 6px 12px; border:
   .site-footer { align-items: flex-start; flex-direction: column; }
   .intro { padding-block: 34px; }
   .hero { grid-template-columns: 1fr; gap: 30px; }
-  .hero h1 { font-size: clamp(2.45rem, 9.5vw, 3.4rem); }
+  .hero h1 { font-size: clamp(2.1rem, 9.1vw, 3.3rem); }
   .intro-description { margin-top: 14px; font-size: .96rem; }
   .hero .actions { margin-top: 18px; }
   .paper-preview { margin-right: 12px; }
+  .ai-workflow ol { grid-template-columns: minmax(0, 1fr); }
   .example-grid { grid-template-columns: minmax(0, 1fr); }
   .mbti-workspace { padding-block: 22px 36px; }
   .mbti-scale { grid-template-columns: repeat(2, minmax(0, 1fr)); }
