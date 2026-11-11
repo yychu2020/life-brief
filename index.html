@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; form-action 'none'; object-src 'none'; base-uri 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="生活折页是一份按主题填写的私人手记，帮你回看经历、厘清取舍，把下一步写下来。">
+  <title>生活折页</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="questions.js"></script>
+  <script defer src="phq9.js"></script>
+  <script defer src="finance.js"></script>
+  <script defer src="monthly.js"></script>
+  <script defer src="report.js"></script>
+  <script defer src="mbti.js"></script>
+  <script defer src="examples.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="public.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="frame header-content">
+      <button class="wordmark" id="home" type="button" aria-label="生活折页首页">
+        <span class="brand-mark" aria-hidden="true"></span>生活折页
+      </button>
+      <nav class="public-actions" aria-label="关于生活折页">
+        <button class="public-link" type="button" data-public-dialog="privacy-dialog" aria-haspopup="dialog">隐私承诺</button>
+        <button class="public-link" type="button" data-public-dialog="support-dialog" aria-haspopup="dialog">支付宝打赏</button>
+        <button class="public-link" type="button" data-public-dialog="feedback-dialog" aria-haspopup="dialog">建议反馈</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="frame">
+    <section id="screen-intro" class="intro" aria-labelledby="intro-title">
+      <div class="hero">
+        <div class="hero-content">
+          <p class="intro-kicker">一份给自己的阶段手记</p>
+          <h1 id="intro-title">这段日子，<br>你想记下什么？</h1>
+          <p class="intro-description">从一件眼下在意的事写起。回看经历、盘点手里的支点，把想尝试的下一步留在手记里。</p>
+          <div class="actions">
+            <button id="start" class="button primary" type="button">开始写手记 <span aria-hidden="true">→</span></button>
+            <button id="continue-draft" class="button primary" type="button" hidden>继续草稿 <span aria-hidden="true">→</span></button>
+            <button id="open-mbti" class="button secondary" type="button">MBTI 风格自测</button>
+            <button id="demo" class="button quiet" type="button">看虚拟案例</button>
+          </div>
+          <p class="intro-privacy">免登录。填写、生成和下载手记都在浏览器内完成，生活折页不会收到你的答复。</p>
+        </div>
+        <div class="paper-preview">
+          <figure class="paper-page">
+            <figcaption>手记片段</figcaption>
+            <p class="preview-title">把实验结果写成初稿</p>
+            <dl>
+              <div><dt>眼下卡在</dt><dd>总想再补一组实验，迟迟没有动笔。</dd></div>
+              <div><dt>手里的支点</dt><dd>已有三张核心图，周四可以请同伴看一次提纲。</dd></div>
+              <div><dt>这一周先做</dt><dd>给三张图各写一句结论。</dd></div>
+            </dl>
+          </figure>
+        </div>
+      </div>
+
+      <section id="home-profile" class="home-profile" aria-labelledby="home-profile-title" hidden>
+        <h2 id="home-profile-title">我的档案标签</h2>
+        <ul id="home-profile-tags" class="profile-tags"></ul>
+      </section>
+
+      <section id="mbti-archive" class="mbti-archive-panel" aria-labelledby="mbti-archive-title" hidden>
+        <div>
+          <h2 id="mbti-archive-title">档案中的性格偏好</h2>
+          <p><strong id="mbti-archive-type"></strong> <span id="mbti-archive-meta"></span></p>
+        </div>
+        <button id="remove-mbti" class="button quiet" type="button">移除自测记录</button>
+      </section>
+
+      <section class="examples-section" aria-labelledby="examples-title">
+        <div class="examples-heading">
+          <h2 id="examples-title" tabindex="-1">写完之后，能留下什么？</h2>
+          <p>三份虚构手记，看看不同的人从哪里开始，又整理出了什么。</p>
+        </div>
+        <div id="example-grid" class="example-grid"></div>
+      </section>
+    </section>
+
+    <section id="screen-mbti" class="mbti-workspace" aria-label="MBTI 风格自测" hidden>
+      <div id="mbti-content"></div>
+    </section>
+
+    <section id="screen-form" class="flow" aria-label="梳理问卷" hidden>
+      <aside class="flow-toolbar" aria-label="手记导航">
+        <button id="flow-back" class="flow-back" type="button"><span aria-hidden="true">←</span> 返回</button>
+        <div class="view-toggle" role="group" aria-label="手记视图">
+          <button id="current-tab" type="button" aria-controls="current-view" aria-pressed="true">正在写</button>
+          <button id="overview-tab" type="button" aria-controls="overview-view" aria-pressed="false">章节目录</button>
+        </div>
+        <button id="submit-early" class="button secondary flow-submit" type="button">整理成手记</button>
+      </aside>
+
+      <div id="current-view">
+        <div class="question-navigation">
+          <div class="progress-head">
+            <span id="question-module"></span>
+            <div class="jump-actions">
+              <span id="question-position"></span>
+              <button id="jump-toggle" class="jump-toggle" type="button" aria-expanded="false" aria-controls="jump-panel">选题</button>
+            </div>
+          </div>
+          <div class="question-scrubber">
+            <progress id="question-progress" max="1" value="1" aria-hidden="true"></progress>
+            <input id="question-jump" type="range" min="1" max="1" step="1" value="1" aria-label="按进度条跳题">
+          </div>
+          <div id="jump-panel" class="jump-panel" hidden>
+            <label for="question-picker">按章节选择要填写的问题</label>
+            <select id="question-picker"></select>
+            <button id="jump-go" class="button primary" type="button">跳到这题</button>
+          </div>
+        </div>
+        <form id="reflection-form" novalidate>
+          <div id="step-content"></div>
+          <p id="form-error" class="form-error" role="alert" hidden></p>
+          <div class="actions form-actions">
+            <button id="back" class="button secondary" type="button">上一题</button>
+            <div class="actions forward-actions">
+              <button id="skip" class="button quiet" type="button">跳过</button>
+              <button id="next" class="button primary" type="submit">下一题</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div id="overview-view" hidden>
+        <div class="overview-heading">
+          <h1>章节目录</h1>
+          <p id="overview-summary"></p>
+        </div>
+        <div id="module-grid" class="module-grid"></div>
+      </div>
+
+      <dialog id="module-dialog" aria-labelledby="module-title" aria-describedby="module-description">
+        <div class="module-dialog-header">
+          <div><h2 id="module-title"></h2><p id="module-description"></p></div>
+          <button id="module-close" class="flow-back" type="button" aria-label="关闭章节题目">×</button>
+        </div>
+        <div id="module-questions" class="module-questions"></div>
+      </dialog>
+    </section>
+
+    <section id="screen-report" class="workspace report" aria-labelledby="report-title" hidden>
+      <div class="report-heading">
+        <div><h1 id="report-title" tabindex="-1">我的生活手记</h1><p id="report-summary">检查和修改手记，留下想要执行的行动。</p></div>
+        <button id="edit" class="button secondary" type="button">返回章节目录</button>
+      </div>
+      <div id="report-phq" hidden></div>
+      <div id="report-mbti" class="mbti-archive-panel" hidden></div>
+      <div class="card report-card">
+        <label for="report-text">手记正文 <span>Markdown</span></label>
+        <textarea id="report-text" rows="19" spellcheck="false"></textarea>
+        <div class="actions report-actions">
+          <button id="copy-report" class="button primary" type="button">复制笔记</button>
+          <button id="download" class="button secondary" type="button">下载 .md</button>
+        </div>
+      </div>
+      <div class="report-extra">
+        <div><h2>用 AI 继续梳理</h2><p>复制含部分答复的提示词，粘贴到你常用的 AI 工具。</p></div>
+        <button id="copy-prompt" class="button secondary" type="button">复制 AI 提示词</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer frame">
+    <p>草稿由当前浏览器保存，下载的手记由你保管。</p>
+    <nav class="public-actions" aria-label="隐私、支持与反馈">
+      <button class="public-link" type="button" data-public-dialog="privacy-dialog" aria-haspopup="dialog">隐私承诺</button>
+      <button class="public-link" type="button" data-public-dialog="support-dialog" aria-haspopup="dialog">支付宝打赏</button>
+      <button class="public-link" type="button" data-public-dialog="feedback-dialog" aria-haspopup="dialog">建议反馈</button>
+      <button id="reset" class="footer-button" type="button" hidden>清除草稿</button>
+    </nav>
+  </footer>
+
+  <dialog id="privacy-dialog" class="public-dialog" aria-labelledby="privacy-title">
+    <div class="public-dialog-heading">
+      <h2 id="privacy-title">隐私承诺</h2>
+      <button class="public-dialog-close" type="button" data-public-close aria-label="关闭隐私承诺" autofocus>×</button>
+    </div>
+    <p class="public-privacy-lead">你的填写内容只在当前浏览器里处理。生活折页不会收集或上传你的答复、手记、自测结果和财务记录。</p>
+    <ul class="public-privacy-list">
+      <li><strong>使用与保存。</strong>免登录，页面没有分析追踪。草稿和主动归档的自测结果由浏览器保存，你可以在页面清除。下载的 Markdown 和 CSV 文件由你保管。</li>
+      <li><strong>公开网页。</strong>公开版由 GitHub Pages 托管。GitHub 可能处理提供网页所需的访问信息，例如 IP 地址。</li>
+      <li><strong>主动分享。</strong>把文件交给其他工具、在 GitHub 公开反馈或使用支付宝时，相关内容按你选择的服务处理。</li>
+    </ul>
+  </dialog>
+
+  <dialog id="support-dialog" class="public-dialog support-dialog" aria-labelledby="support-title">
+    <div class="public-dialog-heading">
+      <h2 id="support-title">支付宝打赏</h2>
+      <button class="public-dialog-close" type="button" data-public-close aria-label="关闭支付宝打赏" autofocus>×</button>
+    </div>
+    <p>生活折页免费使用。觉得有帮助，可以自愿用支付宝扫码支持。</p>
+    <img class="support-qr" src="assets/alipay.jpg" width="1260" height="1890" alt="支付宝自愿打赏收款二维码" loading="lazy" decoding="async">
+  </dialog>
+
+  <dialog id="feedback-dialog" class="public-dialog" aria-labelledby="feedback-title">
+    <div class="public-dialog-heading">
+      <h2 id="feedback-title">建议反馈</h2>
+      <button class="public-dialog-close" type="button" data-public-close aria-label="关闭建议反馈" autofocus>×</button>
+    </div>
+    <p>欢迎提出功能建议，或说说哪一步遇到了问题。请用虚构例子描述，个人答复和手记请留在本机。</p>
+    <p id="feedback-channel">可以先复制反馈模板，发布后在公开版的 GitHub 反馈入口提交。</p>
+    <label class="feedback-label" for="feedback-template">反馈模板</label>
+    <textarea id="feedback-template" rows="5" readonly>遇到的问题或建议
+
+发生在哪一步
+
+期待怎样改进</textarea>
+    <div class="actions feedback-actions">
+      <a id="feedback-github" class="button primary" target="_blank" rel="noopener noreferrer" hidden>前往 GitHub 反馈</a>
+      <button id="feedback-copy" class="button secondary" type="button">复制反馈模板</button>
+    </div>
+    <p id="feedback-status" class="feedback-status" role="status" hidden></p>
+  </dialog>
+
+  <template id="phq-result-template">
+    <section class="phq-result" aria-label="PHQ-9 本地筛查结果">
+      <h3>PHQ‑9 筛查结果</h3>
+      <p data-phq-score role="status"></p>
+      <div class="phq-support" data-phq-support role="alert" hidden>
+        <strong>可以现在找人支持你</strong>
+        <p>如果你此刻可能伤害自己，或无法保证自己的安全，请立即联系当地急救服务或前往最近的急诊，并请信任的人陪着你。</p>
+        <p>如果这些念头近期出现过，请尽快告诉信任的人，或联系心理或精神卫生专业人员，和他们一起评估情况。</p>
+      </div>
+      <p class="phq-note">量表用于初步筛查近两周的抑郁症状。诊断需由专业人员评估。筛查答复和分数留在当前浏览器，不会加入下载笔记或 AI 提示词。</p>
+      <p class="phq-sources"><a href="https://www.icn.ch/sites/default/files/inline-files/ICN_NursingGuide_Chinese_v10_WEB_spreads.pdf#page=42" target="_blank" rel="noopener noreferrer">中文量表</a><a href="https://pubmed.ncbi.nlm.nih.gov/11556941/" target="_blank" rel="noopener noreferrer">计分依据</a></p>
+    </section>
+  </template>
+  <div id="status" role="status" aria-live="polite"></div>
+</body>
+</html>
